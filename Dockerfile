@@ -13,9 +13,9 @@ ENV P4C_DEPS bison \
              libgc-dev \
              libgmp-dev \
              pkg-config \
-             python-ipaddr \
-             python-pip \
-             python-setuptools
+             python3 \
+             python3-pip \
+             python3-setuptools
 
 ENV P4C_EBPF_DEPS libpcap-dev \
              libelf-dev \
@@ -24,7 +24,8 @@ ENV P4C_EBPF_DEPS libpcap-dev \
              libprotobuf-dev \
              protobuf-compiler \
              iproute2 \
-             tcpdump
+             tcpdump \
+             iptables
 
 ENV P4C_PIP_PACKAGES pyroute2 \
                      ply==3.8 \
@@ -34,8 +35,8 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends $P4C_DEPS
 RUN apt-get install -y --no-install-recommends $P4C_EBPF_DEPS
 # in some cases wheel is needed to install pip packages
-RUN pip install wheel
-RUN pip install $P4C_PIP_PACKAGES
+RUN pip3 install wheel
+RUN pip3 install $P4C_PIP_PACKAGES
 
 # p4c download begin
 RUN git clone https://github.com/p4lang/p4c.git && \

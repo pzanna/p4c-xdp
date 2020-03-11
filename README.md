@@ -31,7 +31,7 @@ version >= 4.10.0-rc7+ due to some BPF verifier limitations
 [slides](https://github.com/vmware/p4c-xdp/blob/master/doc/p4xdp-iovisor17.pdf),
 [demo1](https://youtu.be/On7hEJ6bPVU), [demo2](https://youtu.be/vlp1MzWVOc8), [demo3](https://youtu.be/TibGxCXPNVc)
 - Linux Plumbers' Conference 2018
-[slides](https://github.com/vmware/p4c-xdp/blob/master/doc/p4c-xdp-lpc18-presentation.pdf)
+[slides](https://github.com/vmware/p4c-xdp/blob/master/doc/p4c-xdp-lpc18-presentation.pdf),
 [paper](https://github.com/vmware/p4c-xdp/blob/master/doc/lpc18.pdf)
 
 ## Installation
@@ -44,6 +44,7 @@ will pull the latest image. However, the XDP BPF code has dependency on your ker
 Currently for some complicated cases we require kernel >= 4.10.0-rc7.  So a vagrant box is
 also provided with kernel 4.10.0-rc8.
 ```bash
+$ vagrant init u9012063/p4xdp
 $ vagrant up
 $ vagrant ssh
 ubuntu@ubuntu-xenial:~$ sudo su
