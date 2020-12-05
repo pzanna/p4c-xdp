@@ -19,6 +19,7 @@ ENV P4C_DEPS bison \
 
 ENV P4C_EBPF_DEPS libpcap-dev \
              libelf-dev \
+             zlib1g-dev \
              llvm \
              clang \
              libprotobuf-dev \
@@ -38,6 +39,7 @@ RUN apt-get install -y --no-install-recommends $P4C_EBPF_DEPS
 RUN pip3 install wheel
 RUN pip3 install $P4C_PIP_PACKAGES
 
+
 # p4c download begin
 RUN git clone https://github.com/p4lang/p4c.git && \
     cd p4c && \
@@ -46,24 +48,18 @@ RUN git clone https://github.com/p4lang/p4c.git && \
     mkdir extensions
 # p4c download end
 
+
 # copy xdp into the extension folder
 COPY . /home/p4c/extensions/p4c-xdp
 RUN ln -s /home/p4c /home/p4c/extensions/p4c-xdp
 
+
 # build p4c and p4c-xdp
 RUN cd /home/p4c/ && \
+    python3 backends/ebpf/build_libbpf && \
     mkdir -p build && \
     cd build && \
     cmake .. && \
     make -j `getconf _NPROCESSORS_ONLN` && \
     make install && \
     cd ..
-
-# p4c-xdp setup begin
-RUN cd /home/p4c/extensions/p4c-xdp/ && \
-    # link the compiler
-    ln -sf /home/p4c/build/p4c-xdp p4c-xdp && \
-    # add xdp to the ebpf backend target folder
-    ln -sf /home/p4c/extensions/p4c-xdp/xdp_target.py /home/p4c/backends/ebpf/targets/xdp_target.py && \
-    ln -sf /home/p4c/backends/ebpf/run-ebpf-test.py /home/p4c/extensions/p4c-xdp/run-ebpf-test.py
-# p4c-xdp setup end
